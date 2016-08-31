@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request
-from flask.ext.wtf import Form
+from flask_wtf import Form
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
 
@@ -12,8 +12,8 @@ app = Flask(__name__)
 
 
 def db_connect():
-    conn = mysql.connector.connect(user='root', password='root',
-                                   host='localhost', database='lab')
+    conn = mysql.connector.connect(user='sql9133321', password='5l3y7xSufC',
+                                   host='sql9.freemysqlhosting.net', database='sql9133321')
     return conn
 
 @app.route('/')
