@@ -12,8 +12,8 @@ app = Flask(__name__)
 
 
 def db_connect():
-    conn = mysql.connector.connect(user='sql9133321', password='5l3y7xSufC',
-                                   host='sql9.freemysqlhosting.net', database='sql9133321')
+    conn = mysql.connector.connect(user='root', password='root',
+                                   host='localhost', database='lab')
     return conn
 
 @app.route('/')
