@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Todos os professores{% endblock %}
+
+{% block content %}
+{% set filter_professor = request.form.get('professor') %}
+{% set filter_disciplina = request.form.get('disciplina') %}
+{% set filter_turma = request.form.get('turma') %}
+
+    <h1> Ola, selecione o professor</h1>
+
+<div>
+
+<form id="form" class="form-inline" method="POST" action="{{ url_for('qualquer') }}">
+
+<div class="form-group">
+    <div class="input-group">
+            <input value="{{filter_professor if filter_professor != None}}" id="professor_autocomplete" name="professor" placeholder="Professor" class="input form-control" onchange='this.form.submit();'></input>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="input-group">
+            <select {{'selected=selected' if filter_disciplina == None}} name="disciplina" class="selectpicker form-control" onchange='if(this.value != 0) { this.form.submit(); }'>
+              <option value="None"> Disciplina </option>
+              {% for disciplina in disciplinas %}
+              <option {{'selected=selected' if filter_disciplina == disciplina[1]}} value="{{ disciplina[1] }}"> {{ disciplina[1] }} </option>
+              {% endfor %}
+            </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="input-group">
+            <select name="turma" class="selectpicker form-control" onchange='if(this.value != 0) { this.form.submit(); }'>
+              <option {{'selected=selected' if filter_turma == None}} value="None"> Turma </option>
+              {% for turma in turmas %}
+              <option {{'selected=selected' if filter_turma == turma[1]}} value="{{ turma[1] }}"> {{ turma[1] }} </option>
+              {% endfor %}
+            </select>
+    </div>
+  </div>
+</form>
+<div>
+
+<iframe id="myIframe" style="border: 0  ;" width="780" height="535" frameborder="0" scrolling="yes"></iframe>
+
+<script type="text/javascript">
+
+  var url = "{{url|safe if url != ''}}";
+  render(url);
+
+  function render(data){
+  document.getElementById('myIframe').src = data;
+  }
+
+ $( function() {
+    var availableTags = {{autocomplete|tojson|safe}};
+    console.log(availableTags);
+
+    $( "#professor_autocomplete" ).autocomplete({
+        source: availableTags,
+        select: function(event, ui) {
+        $("#professor_autocomplete").val(ui.item.label);
+        $("#form").submit(); }
+    });
+  });
+
+</script>
+{% endblock %}
