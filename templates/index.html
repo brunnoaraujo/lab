@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Bem vindo ao sistema{% endblock %}
+{% block title %}Todos os professores{% endblock %}
 
 {% block content %}
-    <h2>Escolha!</h2>
-    <ul>
-        <li><a href="{{ url_for('inicio') }}">Agendar</a></li>
-    </ul>
+    <h3>Você é professor ou aluno?</h3>
+    <select>
+        <option></option>
+        <option>Professor</option>
+        <option>Aluno</option>
+    </select>
 {% endblock %}

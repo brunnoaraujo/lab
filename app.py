@@ -65,7 +65,7 @@ def qualquer():
 
         url = 'http://fs24.formsite.com/UNIFACS/form1/fill?6=1'+"&9="+str(turma)+"&13="+str(disciplina)
 
-    return render_template('qualquer.html', professor=professor, disciplinas=disciplinas, turmas=turmas, url=url, autocomplete=autocomplete)
+    return render_template('professor.html', professor=professor, disciplinas=disciplinas, turmas=turmas, url=url, autocomplete=autocomplete)
 
 
 
