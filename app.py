@@ -5,7 +5,7 @@ professor_name = []
 professor = []
 disciplina = []
 turma = []
-
+autocomplete = []
 app = Flask(__name__)
 
 def db_connect():
@@ -13,12 +13,8 @@ def db_connect():
                                    host='localhost', database='lab')
     return conn
 
-@app.route('/')
+@app.route("/" , methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
-
-@app.route("/qualquer" , methods=['GET', 'POST'])
-def qualquer():
     global professor
     global disciplina
     global turma
@@ -26,8 +22,7 @@ def qualquer():
     url = ''
     turmas = []
     disciplinas = []
-    autocomplete = []
-
+    global autocomplete
     if request.form.get('professor') is None:
         conn = db_connect()
         cursor = conn.cursor()
@@ -35,7 +30,7 @@ def qualquer():
         professor = cursor.fetchall()
         conn.close()
         print(professor)
-
+        autocomplete =[]
         for prof in professor:
             autocomplete.append(prof[1])
         print(autocomplete)
@@ -66,7 +61,6 @@ def qualquer():
         url = 'http://fs24.formsite.com/UNIFACS/form1/fill?6=1'+"&9="+str(turma)+"&13="+str(disciplina)
 
     return render_template('professor.html', professor=professor, disciplinas=disciplinas, turmas=turmas, url=url, autocomplete=autocomplete)
-
 
 
 if __name__ == '__main__':
