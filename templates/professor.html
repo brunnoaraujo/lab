@@ -5,7 +5,7 @@
 {% block content %}
 {% set filter_professor = request.form.get('professor') %}
 {% set filter_disciplina = request.form.get('disciplina') %}
-{% set filter_turma = request.form.get('turma') %}
+
 <p></p>
 <div align="center" class="form-inline">
 	<select class="selectpicker form-control" onchange="change(this);">
@@ -27,7 +27,7 @@
 		<div class="form-group">
 			<div class="input-group">
 				<select {{'selected=selected' if filter_disciplina == None}} name="disciplina" class="selectpicker form-control" onchange='if(this.value != 0) { this.form.submit(); }'>
-					<option value="None"> Disciplina </option>
+					<option value="None"> Disciplina _ Turma </option>
 					{% for disciplina in disciplinas %}
 					<option {{'selected=selected' if filter_disciplina == disciplina[1]}} value="{{ disciplina[1] }}"> {{ disciplina[1] }} </option>
 					{% endfor %}
@@ -35,17 +35,8 @@
 			</div>
 		</div>
 
-		<div class="form-group">
-			<div class="input-group">
-				<select name="turma" class="selectpicker form-control" onchange='if(this.value != 0) { this.form.submit(); }'>
-					<option {{'selected=selected' if filter_turma == None}} value="None"> Turma </option>
-					{% for turma in turmas %}
-					<option {{'selected=selected' if filter_turma == turma[1]}} value="{{ turma[1] }}"> {{ turma[1] }} </option>
-					{% endfor %}
-				</select>
-			</div>
-		</div>
 	</form>
+	<h8>Não encontrou a turma? <a href="http://fs24.formsite.com/UNIFACS/form1/fill?6=1">Clique aqui para agendar</a></h8>
 	</div>
 
 	<div align="center" id="iframe" style="display:'block';">
@@ -68,9 +59,11 @@
 				}
 			}
 
-			var url = "{{url|safe if url != ''}}";
-			render(url);
-
+			{% if disciplina != '' and turma != '' %}
+				var url = 'http://fs24.formsite.com/UNIFACS/form1/fill?6=1'+"&9="+{{turma|tojson|safe}}+"&13="+{{disciplina|tojson|safe}}
+				render(url)
+			{%endif%}
+			
 			function render(data){
 				if (data != '') {
 					document.getElementById("iframe").style.display = 'block';
