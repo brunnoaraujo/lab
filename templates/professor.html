@@ -60,7 +60,7 @@
 			}
 
 			{% if disciplina != '' and turma != '' %}
-				var url = 'http://fs24.formsite.com/UNIFACS/form1/fill?6=1'+"&9="+{{turma|tojson|safe}}+"&13="+{{disciplina|tojson|safe}}+"&8="{{filter_professor|safe}}
+				var url = 'http://fs24.formsite.com/UNIFACS/form1/fill?6=1'+"&9="+{{turma|tojson|safe}}+"&13="+{{disciplina|tojson|safe}}+"&8="{{filter_professor}}
 				render(url)
 			{%endif%}
 			
