@@ -52,7 +52,7 @@ def index():
             disciplina = lista[0]
             turma = lista[1]
 
-    return render_template('professor.html', professor=professor, disciplinas=disciplinas, turmas=turmas, autocomplete=autocomplete, disciplina=disciplina, turma=turma)
+    return render_template('professor.html', professor=professor, disciplinas=disciplinas, turmas=turmas, autocomplete=autocomplete, disciplina=disciplina, turma=turma, professor_name=professor_name)
 
 
 if __name__ == '__main__':
