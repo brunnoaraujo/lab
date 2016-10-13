@@ -7,6 +7,8 @@ professor = []
 disciplina = []
 turma = []
 autocomplete = []
+professor_email = ''
+
 app = Flask(__name__)
 
 def db_connect():
@@ -16,7 +18,7 @@ def db_connect():
 
 @app.route("/" , methods=['GET', 'POST'])
 def index():
-    global professor, disciplina, turma, professor_name, autocomplete
+    global professor, disciplina, turma, professor_name, autocomplete, professor_email
     url = ''
     turmas = []
     disciplinas = []
@@ -59,10 +61,13 @@ def index():
         conn = db_connect()
         cursor = conn.cursor()
         cursor.execute("SELECT idprofessor FROM professor WHERE nome = '%s' " % professor_name)
-        idprofessor=cursor.fetchall()
+        idprofessor = cursor.fetchall()
         cursor.execute("SELECT * FROM disciplina WHERE disciplina = '%s' " % idprofessor[0][0])
         disciplinas = cursor.fetchall()
-
+        cursor.execute("SELECT email FROM professor WHERE nome = '%s' " % professor_name)
+        professor_email = cursor.fetchall()
+        print(professor_email)
+    
     if request.form.get('professor') and request.form.get('disciplina') and request.form.get('disciplina') != 'None':
         nada = request.form.get('disciplina')
         lista = nada.split('_', 1)
@@ -81,7 +86,7 @@ def index():
             curso = filter(lambda curso:curso['acronym']==acronym,cursos)
             curso = curso[0]['id']
 
-    return render_template('professor.html', professor=professor, disciplinas=disciplinas, turmas=turmas, autocomplete=autocomplete, disciplina=disciplina, turma=turma, professor_name=professor_name, turno=turno, curso=curso)
+    return render_template('professor.html', professor=professor, disciplinas=disciplinas, turmas=turmas, autocomplete=autocomplete, disciplina=disciplina, turma=turma, professor_name=professor_name, turno=turno, curso=curso, professor_email=professor_email)
 
 
 if __name__ == '__main__':
