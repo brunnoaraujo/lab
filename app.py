@@ -8,7 +8,7 @@ disciplina = []
 turma = []
 autocomplete = []
 professor_email = ''
-lab_id = ''
+lab = ''
 
 app = Flask(__name__)
 
@@ -19,7 +19,7 @@ def db_connect():
 
 @app.route("/" , methods=['GET', 'POST'])
 def index():
-    global professor, disciplina, turma, professor_name, autocomplete, professor_email, lab_id
+    global professor, disciplina, turma, professor_name, autocomplete, professor_email, lab
     url = ''
     turmas = []
     disciplinas = []
@@ -47,8 +47,8 @@ def index():
         {"acronym": "SI", "name": "Sistemas de Informacao", "id": "12"},
         {"acronym": "PG", "name": "Petroleo e Gas", "id": ""}, 
         ]
-    if request.args.get('lab') is not None:
-        lab_id = request.args.get('lab')
+    if request.args.get('lab'):
+        lab = request.args.get('lab')
         
     if request.form.get('professor') is None:
         conn = db_connect()
@@ -72,6 +72,8 @@ def index():
         professor_email = cursor.fetchall()
     
     if request.form.get('professor') and request.form.get('disciplina') and request.form.get('disciplina') != 'None':
+        lab_id = lab
+        lab = '' 
         select_disciplina = request.form.get('disciplina')
         disciplina = select_disciplina[:select_disciplina.index(" (")] 
         turma = select_disciplina[select_disciplina.index("(")+1:select_disciplina.index(")")]
