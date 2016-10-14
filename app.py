@@ -8,6 +8,7 @@ disciplina = []
 turma = []
 autocomplete = []
 professor_email = ''
+lab_id = ''
 
 app = Flask(__name__)
 
@@ -18,7 +19,7 @@ def db_connect():
 
 @app.route("/" , methods=['GET', 'POST'])
 def index():
-    global professor, disciplina, turma, professor_name, autocomplete, professor_email
+    global professor, disciplina, turma, professor_name, autocomplete, professor_email, lab_id
     url = ''
     turmas = []
     disciplinas = []
@@ -45,7 +46,9 @@ def index():
         {"acronym": "SI", "name": "Sistemas de Informacao", "id": "12"},
         {"acronym": "PG", "name": "Petroleo e Gas", "id": ""}, 
         ]
-
+    if request.args.get('lab') is not None:
+        lab_id = request.args.get('lab')
+        
     if request.form.get('professor') is None:
         conn = db_connect()
         cursor = conn.cursor()
@@ -66,28 +69,28 @@ def index():
         disciplinas = cursor.fetchall()
         cursor.execute("SELECT email FROM professor WHERE nome = '%s' " % professor_name)
         professor_email = cursor.fetchall()
-        print(professor_email)
     
     if request.form.get('professor') and request.form.get('disciplina') and request.form.get('disciplina') != 'None':
-        nada = request.form.get('disciplina')
-        lista = nada.split('_', 1)
-        if(len(lista) > 1):
-            disciplina = lista[0]
-            turma = lista[1]
-            nada = turma.split('-', 2)
-            acronym = nada[1]
-            turno = nada[2][0]
-            if(turno=='M'):
-                turno=1
-            if(turno=='V'):
-                turno=2
-            if(turno=='N'):
-                turno=3
-            curso = filter(lambda curso:curso['acronym']==acronym,cursos)
-            curso = curso[0]['id']
+        select_disciplina = request.form.get('disciplina')
+        disciplina = select_disciplina[:select_disciplina.index(" (")] 
+        turma = select_disciplina[select_disciplina.index("(")+1:select_disciplina.index(")")]
+        lista = turma.split('-', 2)
+        acronym = lista[1]
+        turno = lista[2][0]
+        if(turno == 'M'):
+            turno = 1
+        if(turno == 'V'):
+            turno = 2
+        if(turno == 'N'):
+            turno = 3
+        curso = filter(lambda curso:curso['acronym'] == acronym, cursos)
+        curso = curso[0]['id']
 
-    return render_template('professor.html', professor=professor, disciplinas=disciplinas, turmas=turmas, autocomplete=autocomplete, disciplina=disciplina, turma=turma, professor_name=professor_name, turno=turno, curso=curso, professor_email=professor_email)
+    return render_template('professor.html', professor=professor, disciplinas=disciplinas, 
+        turmas=turmas, autocomplete=autocomplete, disciplina=disciplina, turma=turma, 
+        professor_name=professor_name, turno=turno, curso=curso, 
+        professor_email=professor_email, lab_id=lab_id)
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)

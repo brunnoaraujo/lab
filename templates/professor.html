@@ -60,7 +60,7 @@
 			}
 
 			{% if disciplina != '' and turma != '' %}
-				var url = 'http://fs24.formsite.com/UNIFACS/form1/fill?6=1'+"&9="+{{turma|tojson|safe}}+"&13="+{{disciplina|tojson|safe}}+"&8="+{{professor_name|tojson|safe}}+"&10="+{{turno|tojson|safe}}+"&11="+{{curso|safe}}+"&14="+{{professor_email|tojson|safe}}
+				var url = 'http://fs24.formsite.com/UNIFACS/form1/fill?6=1'+"&9="+{{turma|tojson|safe}}+"&13="+{{disciplina|tojson|safe}}+"&8="+{{professor_name|tojson|safe}}+"&10="+{{turno|tojson|safe}}+"&11="+{{curso|safe}}+"&14="+{{professor_email|tojson|safe}}+"&40="+{{lab_id|tojson|safe}}
 				render(url)
 			{%endif%}
 			
