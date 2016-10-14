@@ -27,6 +27,7 @@ def index():
     turma = ''
     curso = ''
     turno = ''
+    lab_id = ''
     cursos = [{"acronym": "ADS", "name": "Analise e Desenvolvimento de Sistemas", "id": " "},
         {"acronym": "AU", "name": "Arquitetura e Urbanismo", "id": "13"},
         {"acronym": "CC", "name": "Ciencia da Computacao", "id": "1"},
