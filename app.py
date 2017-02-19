@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 def db_connect():
     conn = mysql.connector.connect(user='root', password='root',
-                                   host='localhost', database='lab')
+                                   host='localhost', database='gmr')
     return conn
 
 @app.route("/" , methods=['GET', 'POST'])
@@ -28,10 +28,10 @@ def index():
     curso = ''
     turno = ''
     lab_id = ''
-    cursos = [{"acronym": "ADS", "name": "Analise e Desenvolvimento de Sistemas", "id": " "},
+    cursos = [{"acronym": "ADS", "name": "Analise e Desenvolvimento de Sistemas", "id": "0"},
         {"acronym": "AU", "name": "Arquitetura e Urbanismo", "id": "13"},
         {"acronym": "CC", "name": "Ciencia da Computacao", "id": "1"},
-        {"acronym": "CO", "name": "Controle de Obras", "id": ""},
+        {"acronym": "CO", "name": "Controle de Obras", "id": "0"},
         {"acronym": "EA", "name": "Engenharia Ambiental e Sanitaria", "id": "2"},
         {"acronym": "EC", "name": "Engenharia Civil", "id": "3"},
         {"acronym": "ES", "name": "Engenharia de Computacao", "id": "4"},
@@ -41,12 +41,37 @@ def index():
         {"acronym": "EM", "name": "Engenharia Mecanica", "id": "8"},
         {"acronym": "ER", "name": "Engenharia Mecatronica", "id": "9"},
         {"acronym": "EQ", "name": "Engenharia Quimica", "id": "11"},
-        {"acronym": "GA", "name": "Gestao Ambiental", "id": ""},
-        {"acronym": "PG", "name": "Petroleo e Gas", "id": ""},
-        {"acronym": "RC", "name": "Redes de Computadores", "id": ""},
+        {"acronym": "GA", "name": "Gestao Ambiental", "id": "0"},
+        {"acronym": "PG", "name": "Petroleo e Gas", "id": "0"},
+        {"acronym": "RC", "name": "Redes de Computadores", "id": "0"},
         {"acronym": "SI", "name": "Sistemas de Informacao", "id": "12"},
-        {"acronym": "PG", "name": "Petroleo e Gas", "id": ""}, 
+        {"acronym": "PG", "name": "Petroleo e Gas", "id": "0"},
+        {"acronym": "ERC", "name": "", "id": "4"},
+        {"acronym": "SI", "name": "", "id": "0"},
+        {"acronym": "SIC", "name": "", "id": "0"},
+        {"acronym": "SWC", "name": "", "id": "0"},
+        {"acronym": "OLC", "name": "", "id": "0"},
+        {"acronym": "OL", "name": "", "id": "0"},
+        {"acronym": "GAC", "name": "", "id": "0"},
+        {"acronym": "ESC", "name": "", "id": "0"},
+        {"acronym": "EQC", "name": "", "id": "0"},
+        {"acronym": "EPPC", "name": "", "id": "0"},
+        {"acronym": "EPP", "name": "", "id": "0"},
+        {"acronym": "EPC", "name": "", "id": "0"},
+        {"acronym": "EMC1", "name": "", "id": "0"},
+        {"acronym": "EMC", "name": "", "id": "0"},
+        {"acronym": "EEC", "name": "", "id": "4"},
+        {"acronym": "ED", "name": "", "id": "0"},
+        {"acronym": "ECM", "name": "", "id": "0"},
+        {"acronym": "ECC", "name": "", "id": "0"},
+        {"acronym": "EC", "name": "", "id": "0"},
+        {"acronym": "EAC", "name": "", "id": "0"},
+        {"acronym": "EA", "name": "", "id": "0"},
+        {"acronym": "CCC", "name": "", "id": "0"},
+        {"acronym": "ARC", "name": "", "id": "0"},
+        {"acronym": "AR", "name": "", "id": "0"},
         ]
+
     if request.args.get('lab'):
         lab = request.args.get('lab')
         
@@ -70,12 +95,13 @@ def index():
         disciplinas = cursor.fetchall()
         cursor.execute("SELECT email FROM professor WHERE nome = '%s' " % professor_name)
         professor_email = cursor.fetchall()
-    
+        conn.close()
+
     if request.form.get('professor') and request.form.get('disciplina') and request.form.get('disciplina') != 'None':
         lab_id = lab
         lab = '' 
         select_disciplina = request.form.get('disciplina')
-        disciplina = select_disciplina[:select_disciplina.index(" (")] 
+        disciplina = select_disciplina[:select_disciplina.index("(")]
         turma = select_disciplina[select_disciplina.index("(")+1:select_disciplina.index(")")]
         lista = turma.split('-', 2)
         acronym = lista[1]
